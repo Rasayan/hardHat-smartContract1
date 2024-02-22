@@ -1,17 +1,14 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
-task("block-number", "Prints the current block number").setAction(
-  async (taskArgs, hre) => {
-    const blockNumber = await hre.ethers.provider.getBlockNumber();
-    console.log(`Block Number  --  ${blockNumber}`);
-  }
-);
+require("hardhat-gas-reporter");
+require('solidity-coverage')
 
 /** @type import('hardhat/config').HardhatUserConfig */
 
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const ETHSCAN_API_KEY = process.env.ETHSCAN_API_KEY;
+const CMC_API_KEY = process.env.CMC_API_KEY;
 
 module.exports = {
   defaultNetwork: "hardhat",
@@ -30,6 +27,14 @@ module.exports = {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: ETHSCAN_API_KEY,
+  },
+  gasReporter: {
+    enabled: true,
+    outputFile: "gas-report.txt",
+    noColors: true,
+    currency: "INR",
+    coinmarketcap: CMC_API_KEY,
+    token: "SOL",
   },
   solidity: "0.8.24",
 };

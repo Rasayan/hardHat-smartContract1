@@ -3,7 +3,7 @@ const { assert } = require("chai");
 
 describe("SimpleStorage", () => {
   let SimpleStorageFactory, SimpleStorage;
-  this.beforeEach(async () => {
+  beforeEach(async () => {
     SimpleStorageFactory = await ethers.getContractFactory("SimpleStorage");
     SimpleStorage = await SimpleStorageFactory.deploy();
   });
@@ -13,5 +13,13 @@ describe("SimpleStorage", () => {
     const expectedVal = "0";
 
     assert.equal(currentVal.toString(), expectedVal);
+  });
+
+  it("Should return same number on initial store  and retrieve", async () => {
+    await SimpleStorage.store("7");
+    const updatedVal = await SimpleStorage.retrieve();
+    const expectedVal = "7";
+
+    assert.equal(updatedVal.toString(), expectedVal);
   });
 });
